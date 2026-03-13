@@ -35,7 +35,7 @@
             padding: 0 5%;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 2000;
             border-bottom: 3px solid var(--nav-border-color);
             box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
@@ -44,10 +44,11 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            z-index: 2100;
         }
 
         .logo-img {
-            height: 60px;
+            height: 50px;
             width: auto;
             display: block;
             filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3));
@@ -56,15 +57,18 @@
         .brand-name {
             color: var(--white);
             font-weight: 600;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             letter-spacing: 0.2px;
             text-transform: uppercase;
         }
 
+        /* Menu na komputerze */
         .nav-menu {
             display: flex;
             gap: 25px;
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-menu a {
@@ -78,32 +82,46 @@
 
         .nav-menu a:hover {
             color: var(--accent-red);
-            transform: translateY(-2px);
         }
 
-        /* --- SEKCJA HERO Z TWOIM ZDJĘCIEM --- */
+        /* Ikona Hamburgera (ukryta na komputerze) */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 2100;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* --- SEKCJA HERO --- */
         .hero {
-            /* Dodano zdjęcie z nakładką przyciemniającą dla czytelności tekstu */
-            background: linear-gradient(rgba(0, 45, 90, 0.6), rgba(0, 45, 90, 0.6)), 
+            background: linear-gradient(rgba(0, 45, 90, 0.65), rgba(0, 45, 90, 0.65)), 
                         url('tlo-hero.png'); 
             background-size: cover;
             background-position: center;
             padding: 120px 20px;
             text-align: center;
             color: white;
-            /* Zaokrąglenie dokładnie jak wcześniej */
             border-bottom-left-radius: 60px;
             border-bottom-right-radius: 60px;
             box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
         }
 
         .hero h1 {
-            font-size: clamp(1.5rem, 4.5vw, 2.6rem);
+            font-size: clamp(1.4rem, 5vw, 2.6rem);
             font-weight: 700; 
             line-height: 1.4;
             margin: 0 auto;
             max-width: 950px;
-            letter-spacing: -0.5px;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
@@ -119,16 +137,14 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px rgba(231, 25, 63, 0.3);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .btn-discord:hover {
             transform: translateY(-3px);
             filter: brightness(1.1);
-            box-shadow: 0 12px 25px rgba(231, 25, 63, 0.5);
         }
 
-        /* --- RESZTA TREŚCI --- */
+        /* --- TREŚĆ --- */
         .main-container {
             max-width: 1100px;
             margin: -40px auto 80px;
@@ -140,20 +156,6 @@
             padding: 50px;
             border-radius: 35px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.06);
-        }
-
-        .info-card h2 {
-            font-weight: 700;
-            color: var(--primary-blue);
-            font-size: 1.8rem;
-            margin-top: 0;
-        }
-
-        .info-card p {
-            font-weight: 400;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #444;
         }
 
         .grid {
@@ -168,19 +170,6 @@
             border-radius: 20px;
             background: #f8fbff;
             border: 1px solid #e1e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-red);
-        }
-
-        .feature h3 {
-            color: var(--primary-blue);
-            font-weight: 700;
-            margin-top: 0;
-            font-size: 1.3rem;
         }
 
         footer {
@@ -190,10 +179,46 @@
             font-size: 0.85rem;
         }
 
+        /* --- STYL DLA TELEFONÓW (Mobile) --- */
         @media (max-width: 768px) {
-            .nav-menu { display: none; }
-            .hero { padding: 80px 20px; }
+            .hamburger {
+                display: flex; /* Pokazujemy hamburgera */
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Menu schowane za ekranem */
+                width: 70%;
+                height: 100vh;
+                background: var(--nav-grad-end);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            }
+
+            .nav-menu.active {
+                right: 0; /* Menu wjeżdża na ekran */
+            }
+
+            .nav-menu li {
+                margin: 20px 0;
+            }
+
+            .nav-menu a {
+                font-size: 1.2rem;
+            }
+
+            /* Animacja hamburgera w "X" po otwarciu */
+            .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -7px); }
+
+            .brand-name { font-size: 0.9rem; }
             .info-card { padding: 30px; }
+            .hero { padding: 80px 20px; }
         }
     </style>
 </head>
@@ -204,7 +229,15 @@
         <img src="logo-strona-pis.png" alt="Logo" class="logo-img">
         <span class="brand-name">Prawo i Sprawiedliwość</span>
     </div>
-    <ul class="nav-menu">
+
+    <!-- Przycisk Hamburgera -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <ul class="nav-menu" id="nav-menu">
         <li><a href="#">Start</a></li>
         <li><a href="#">O nas</a></li>
         <li><a href="#">Zasady</a></li>
@@ -244,6 +277,25 @@
 <footer>
     &copy; 2026 Serwer Sympatyków PiS
 </footer>
+
+<!-- Skrypt obsługujący otwieranie menu -->
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Zamykanie menu po kliknięciu w link (żeby nie zasłaniało strony)
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+</script>
 
 </body>
 </html>
