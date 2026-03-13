@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serwer Discord - PiS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #002d5a;
+            --accent-red: #e7193f; 
+            --white: #ffffff;
+            --text-main: #1a1a1a;
+            --nav-grad-start: #1e4d8c;
+            --nav-grad-end: #042165;
+            --nav-border-color: #28367d; 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- NAWIGACJA --- */
+        nav {
+            background: linear-gradient(90deg, var(--nav-grad-start) 0%, var(--nav-grad-end) 100%);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 3px solid var(--nav-border-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 2100;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .brand-name {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-menu a:hover:not(.nav-btn-highlight) {
+            color: var(--accent-red);
+        }
+
+        /* Przycisk wyróżniony w menu */
+        .nav-btn-highlight {
+            background-color: var(--accent-red);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(231, 25, 63, 0.3);
+            display: inline-block;
+        }
+
+        .nav-btn-highlight:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+            box-shadow: 0 6px 20px rgba(231, 25, 63, 0.5);
+        }
+
+        /* Ikona Hamburgera */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 2100;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--white);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* --- SEKCJA HERO --- */
+        .hero {
+            background: linear-gradient(rgba(0, 45, 90, 0.65), rgba(0, 45, 90, 0.65)), 
+                        url('tlo-hero.png'); 
+            background-size: cover;
+            background-position: center;
+            padding: 120px 20px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 60px;
+            border-bottom-right-radius: 60px;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(1.4rem, 5vw, 2.6rem);
+            font-weight: 700; 
+            line-height: 1.4;
+            margin: 0 auto;
+            max-width: 950px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .btn-discord {
+            display: inline-block;
+            margin-top: 40px;
+            background-color: var(--accent-red);
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(231, 25, 63, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-discord:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 12px 25px rgba(231, 25, 63, 0.5);
+        }
+
+        /* --- TREŚĆ --- */
+        .main-container {
+            max-width: 1100px;
+            margin: -40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 50px;
+            border-radius: 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            padding: 30px;
+            border-radius: 20px;
+            background: #f8fbff;
+            border: 1px solid #e1e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .feature h3 {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* --- STYL MOBILNY --- */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: var(--nav-grad-end);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            }
+            .nav-menu.active { right: 0; }
+            .nav-menu li { margin: 15px 0; }
+            .nav-menu a { font-size: 1.1rem; }
+            .nav-btn-highlight { width: 80%; text-align: center; }
+            .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -7px); }
+            .hero { padding: 80px 20px; }
+            .info-card { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo-section">
+        <img src="logo-strona-pis.png" alt="Logo" class="logo-img">
+        <span class="brand-name">Prawo i Sprawiedliwość</span>
+    </div>
+
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <ul class="nav-menu" id="nav-menu">
+        <!-- ZAKTUALIZOWANE LINKI -->
+        <li><a href="index.html">Start</a></li>
+        <li><a href="o-nas.html">O nas</a></li>
+        <li><a href="regulamin.html">Regulamin</a></li>
+        <li><a href="https://www.discord.gg/prawica" class="nav-btn-highlight">Dołącz do serwera</a></li>
+    </ul>
+</nav>
+
+<header class="hero">
+    <div class="hero-content">
+        <h1>Serwer Discord dla osób zainteresowanych polityką oraz sympatyków partii PiS</h1>
+        <a href="https://www.discord.gg/prawica" class="btn-discord">Dołącz do serwera</a>
+    </div>
+</header>
+
+<div class="main-container">
+    <main class="info-card">
+        <h2>Witaj w naszej społeczności</h2>
+        <p>Zapraszamy do miejsca stworzonego dla merytorycznej dyskusji. Nasz serwer to przestrzeń, gdzie sympatycy i osoby zainteresowane sprawami Polski mogą wymieniać poglądy w kulturalnej atmosferze.</p>
+        
+        <div class="grid">
+            <div class="feature">
+                <h3>Merytoryka</h3>
+                <p>Stawiamy na argumenty i wzajemny szacunek w każdej dyskusji.</p>
+            </div>
+            <div class="feature">
+                <h3>Wsparcie</h3>
+                <p>Pomocna moderacja i społeczność gotowa do wymiany wiedzy.</p>
+            </div>
+            <div class="feature">
+                <h3>Integracja</h3>
+                <p>Wspólne oglądanie debat, wydarzeń i spotkania na kanałach głosowych.</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<footer>
+    &copy; 2026 Serwer Sympatyków PiS
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+</script>
+
+</body>
+</html>
